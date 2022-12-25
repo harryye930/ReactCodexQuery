@@ -2,18 +2,18 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 
-const organization = "org-Wiy1JIqGFBpVLc3EHdCZ8rBK";
-const apiKey = "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";
+const organization = "change to your org id";
+const apiKey = "change to your api key";
 const configuration = new Configuration({
   organization: organization,
   apiKey: apiKey,
 });
 
 function App() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState("");
   const [currLang, setCurrLang] = useState("Choose a language");
 
   const supportedLang = [
@@ -87,16 +87,16 @@ function App() {
       <form onSubmit={formSubmit}>
         {/*execute setQuery function when form is submitted, and preserve query*/}
         <input
+          type="text"
+          placeholder="ask whatever you want to Codex..."
+          defaultValue={query}
           onChange={(e) => {
             setQuery(e.target.value); // update query value whenever it's changed
           }}
-          type="text"
-          placeholder="ask whatever you want to Codex..."
-          value={query}
         />
         {/*select preferred coding language, and preserve selection*/}
         <select
-          value={currLang}
+          defaultValue={currLang}
           onChange={(e) => {
             setCurrLang(e.target.value);
             console.log("Current language: ", e.target.value);
@@ -106,7 +106,7 @@ function App() {
             Choose a language
           </option>
           {supportedLang.map((option, index) => (
-            <option key={index} value={option.value} selected>
+            <option key={index} value={option.value}>
               {option.label}
             </option>
           ))}

@@ -1,26 +1,48 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
-import { useState, useEffect, useRef } from "react";
 
-const organization = "org-leTL3IF5fMRDqgQK4WlB92yj";
-const apiKey = "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";
+const organization = "org-Wiy1JIqGFBpVLc3EHdCZ8rBK";
+const apiKey = "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";
 const configuration = new Configuration({
   organization: organization,
   apiKey: apiKey,
 });
 
-
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("print hello world in Python");
+  const [query, setQuery] = useState(null);
+  const [currLang, setCurrLang] = useState("Choose a language");
 
-  const queryCodex = async (queryData) => {
+  const supportedLang = [
+    { label: "Python", value: "Python" },
+    { label: "Java", value: "Java" },
+    { label: "C", value: "C" },
+    { label: "Other", value: "Other" },
+  ];
+
+  // we could expend this function to support popular languages...
+  const formatQuery = (query) => {
+    let formattedQuery;
+    if (currLang === "Python") {
+      formattedQuery = query + " in Python";
+    } else if (currLang === "Java") {
+      formattedQuery = query + " in Java";
+    } else if (currLang === "C") {
+      formattedQuery = query + " in C";
+    } else {
+      formattedQuery = query;
+    }
+    return formattedQuery;
+  };
+
+  const queryCodex = async (query) => {
+    const formattedQuery = formatQuery(query);
     const codexParams = {
       model: "code-davinci-002",
-      prompt: queryData,
+      prompt: formattedQuery,
       max_tokens: 100,
       temperature: 0.7,
       top_p: 1,
@@ -28,61 +50,72 @@ function App() {
       stream: false,
       logprobs: null,
     };
-
     const openai = new OpenAIApi(configuration);
     const response = await openai.createCompletion(codexParams);
-    console.log("Question: ", queryData);
-    console.log("Codex answer: ", response)
+    console.log("Question: ", formattedQuery);
+    console.log("Codex answer: ", response);
     return response;
   };
 
-  const queryProcess = (query) =>{
+  const processQuery = (query) => {
     setLoading(true);
     queryCodex(query)
-        .then((response) => {
-          setData(response.data.choices[0].text);
-          setError(response.status !== 200);
-        })
-        .then(() => setLoading(false))
-        .catch(setError);
-  }
-
-  // initial search page
-  useEffect(() =>{
-    queryProcess("print hello world in Python");
-  }, [])
+      .then((response) => {
+        setData(response.data.choices[0].text);
+        setError(response.status !== 200);
+      })
+      .then(() => setLoading(false))
+      .catch(setError);
+  };
 
   const formSubmit = (e) => {
     e.preventDefault();
-    queryProcess(query);
+    processQuery(query);
   };
 
+  useEffect(() => {
+    processQuery('print "hello world" in Python');
+  }, []);
 
-  if (loading) return <h2>Loading...</h2>;
   if (error) {
-    return <pre>{JSON.stringify(error)}</pre>;
+    return <pre> ERROR! {JSON.stringify(error.message)}</pre>;
   }
-  if (!data) return null;
+  if (loading) return <h2>Loading...</h2>;
 
   return (
-
-    <div>
-      <form onSubmit={formSubmit}>  {/*execute formSubmit function when form is submitted*/}
+    <span>
+      <form onSubmit={formSubmit}>
+        {/*execute setQuery function when form is submitted, and preserve query*/}
         <input
           onChange={(e) => {
-            setQuery(e.target.value);  // update query value whenever it's changed
-
-          }
-        }
+            setQuery(e.target.value); // update query value whenever it's changed
+          }}
           type="text"
           placeholder="ask whatever you want to Codex..."
+          value={query}
         />
+        {/*select preferred coding language, and preserve selection*/}
+        <select
+          value={currLang}
+          onChange={(e) => {
+            setCurrLang(e.target.value);
+            console.log("Current language: ", e.target.value);
+          }}
+        >
+          <option value="Choose a language" disabled>
+            Choose a language
+          </option>
+          {supportedLang.map((option, index) => (
+            <option key={index} value={option.value} selected>
+              {option.label}
+            </option>
+          ))}
+        </select>
         <button>Ask</button>
       </form>
-      <div className="display-linebreak">
-        {data}
-      </div>
-    </div>
+      <div style={{ clear: "both" }}></div>
+      <pre>{data}</pre>
+    </span>
   );
 }
 

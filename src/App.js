@@ -2,8 +2,8 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 
-const organization = "change to your org id";
-const apiKey = "change to your api key";
+const organization = "org-Wiy1JIqGFBpVLc3EHdCZ8rBK";
+const apiKey = "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";
 const configuration = new Configuration({
   organization: organization,
   apiKey: apiKey,

@@ -30,4 +30,27 @@ button {
   margin: 2px;
 }
 
+.pageNotFoundImg{
+  max-width: 60%;
+  height: auto;
+}
+
+.nav {
+  display: flex;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: bold;
+  color: #3F3F3F;
+  border-radius: 4px;
+  background-color: #EFEFEF;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  margin-bottom: 10px;
+}
+
+.nav a {
+  padding: 0 10px;
+  color: #3F3F3F;
+  text-decoration: none;
+}
+
 

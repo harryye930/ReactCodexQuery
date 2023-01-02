@@ -1,15 +1,26 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
+import { Link } from "react-router-dom";
 
-const organization = "org-Wiy1JIqGFBpVLc3EHdCZ8rBK";
-const apiKey = "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";
+const organization = "YOUR ORG KEY";
+const apiKey = "YOUR API KEY";
 const configuration = new Configuration({
   organization: organization,
   apiKey: apiKey,
 });
 
-function App() {
+function navigation() {
+  return (
+    <nav className="nav">
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/history">History</Link>
+    </nav>
+  );
+}
+
+export function App() {
   const [data, setData] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,7 +34,7 @@ function App() {
     { label: "Other", value: "Other" },
   ];
 
-  // we could expend this function to support popular languages...
+  // TODO: we could expend this function to support popular languages, add contexts, etc...
   const formatQuery = (query) => {
     let formattedQuery;
     if (currLang === "Python") {
@@ -78,12 +89,23 @@ function App() {
   }, []);
 
   if (error) {
-    return <pre> ERROR! {JSON.stringify(error.message)}</pre>;
+    return (
+      <div>
+        <h1>ERROR!</h1>
+        <pre>{JSON.stringify(error.message)}</pre>)
+      </div>
+    );
   }
-  if (loading) return <h2>Loading...</h2>;
+  if (loading)
+    return (
+      <div>
+        <h2>Loading...</h2>
+      </div>
+    );
 
   return (
-    <span>
+    <div>
+      {navigation()}
       <form onSubmit={formSubmit}>
         {/*execute setQuery function when form is submitted, and preserve query*/}
         <input
@@ -115,8 +137,48 @@ function App() {
       </form>
       <div style={{ clear: "both" }}></div>
       <pre>{data}</pre>
-    </span>
+    </div>
   );
 }
 
-export default App;
+export function History() {
+  return (
+    <div>
+      {navigation()}
+      <h2>History</h2>
+      <p>This is the your history of interactions with Codex</p>
+    </div>
+  );
+}
+
+export function About() {
+  return (
+    <div>
+      {navigation()}
+      <h2>About</h2>
+
+      <p>
+        This is a simple application that takes user input and query through
+        OpenAI's Codex -- a large language model. <br />
+        To learn more about OpenAI and Codex, please visit their{" "}
+        <a href="https://openai.com/">website</a>.
+        <br />
+        <br />
+        &copy; Copyright {new Date().getFullYear()}, Harry Ye
+      </p>
+    </div>
+  );
+}
+
+export function PageNotFound() {
+  return (
+    <div className="pageNotFound">
+      <h2>ERROR: 404 Page not found</h2>
+      <img
+        className="pageNotFoundImg"
+        src="https://img.freepik.com/free-vector/error-404-concept-landing-page_52683-12188.jpg?w=1380&t=st=1672677752~exp=1672678352~hmac=505145aafa8f70dcd1749bcbab59454625e601da767c4f50412f7213579347da"
+        alt="404 Error"
+      />
+    </div>
+  );
+}

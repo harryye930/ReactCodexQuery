@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { navigation } from "./App";
 import { Configuration, OpenAIApi } from "openai";
 
-const organization = "org-Wiy1JIqGFBpVLc3EHdCZ8rBK";
-const apiKey = "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";
+const organization = "your_org_key";
+const apiKey = "your_api_key";
 const configuration = new Configuration({
   organization: organization,
   apiKey: apiKey,
@@ -86,6 +86,7 @@ const formSubmit = (e, props) => {
   processQuery(props);
 };
 
+// Query Component
 export function MainApp(props) {
   useEffect(() => {
     addToHistory(props);
@@ -149,6 +150,7 @@ export function MainApp(props) {
   );
 }
 
+// History Component
 export function History(props) {
   let histories = props.histories;
   return (
@@ -172,6 +174,8 @@ export function History(props) {
     </div>
   );
 }
+
+// About Component
 export function About() {
   return (
     <div>
@@ -190,6 +194,7 @@ export function About() {
   );
 }
 
+// 404 Component
 export function PageNotFound() {
   return (
     <div className="pageNotFound">

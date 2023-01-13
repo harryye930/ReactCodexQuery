@@ -90,7 +90,7 @@ const formSubmit = (e, props) => {
 export function MainApp(props) {
   useEffect(() => {
     addToHistory(props);
-  }, [props.data]);
+  }, [props]);
 
   if (props.error) {
     return (

@@ -198,6 +198,7 @@ export function About() {
 export function PageNotFound() {
   return (
     <div className="pageNotFound">
+      {navigation()}
       <h2>ERROR: 404 Page not found</h2>
       <img
         className="pageNotFoundImg"

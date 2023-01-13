@@ -92,11 +92,16 @@ export function MainApp(props) {
     addToHistory(props);
   }, [props]);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   if (props.error) {
     return (
       <div>
         <h1>ERROR!</h1>
-        <pre>{JSON.stringify(props.error.message)}</pre>)
+        <pre>{JSON.stringify(props.error.message)}</pre>
+        <button onClick={refreshPage}>Click to reload</button>
       </div>
     );
   }

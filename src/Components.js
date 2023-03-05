@@ -13,6 +13,7 @@ const supportedLang = [
   { label: "Python", value: "Python" },
   { label: "Java", value: "Java" },
   { label: "C", value: "C" },
+  { label: "chatGPT", value: "chatGPT" },
   { label: "Other", value: "Other" },
 ];
 
@@ -32,7 +33,11 @@ const formatQuery = (props) => {
 };
 
 const addToHistory = (props) => {
-  let newEntry = { question: formatQuery(props), answer: props.data };
+  let newEntry = {
+    question: formatQuery(props),
+    model: props.currLang === "chatGPT" ? "gpt-3.5-turbo" : "text-davinci-003",
+    answer: props.data,
+  };
   console.log("existing history:", props.histories);
   let histories = props.histories;
   if (newEntry.question.toString() !== "") {
@@ -53,18 +58,32 @@ const addToHistory = (props) => {
 
 const queryCodex = async (props) => {
   const formattedQuery = formatQuery(props);
-  const codexParams = {
-    model: "code-davinci-002",
-    prompt: formattedQuery,
-    max_tokens: 100,
-    temperature: 0.7,
-    top_p: 1,
-    n: 1,
-    stream: false,
-    logprobs: null,
-  };
+  let response;
   const openai = new OpenAIApi(configuration);
-  const response = await openai.createCompletion(codexParams);
+  if (props.currLang === "chatGPT") {
+    const codexParams = {
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: formattedQuery }],
+      max_tokens: 400,
+      temperature: 0.7,
+      top_p: 1,
+      n: 1,
+    };
+    response = await openai.createChatCompletion(codexParams);
+  } else {
+    const codexParams = {
+      model: "text-davinci-003",
+      prompt: formattedQuery,
+      max_tokens: 200,
+      temperature: 0.7,
+      top_p: 1,
+      n: 1,
+      stream: false,
+      logprobs: null,
+    };
+    response = await openai.createCompletion(codexParams);
+  }
+
   console.log("Question: ", formattedQuery);
   console.log("Codex answer: ", response);
   return response;
@@ -74,7 +93,11 @@ const processQuery = (props) => {
   props.setLoading(true);
   queryCodex(props)
     .then((response) => {
-      props.setData(response.data.choices[0].text);
+      if (props.currLang === "chatGPT") {
+        props.setData(response.data.choices[0].message.content);
+      } else {
+        props.setData(response.data.choices[0].text);
+      }
       props.setError(response.status !== 200);
     })
     .then(() => props.setLoading(false))
@@ -90,7 +113,7 @@ const formSubmit = (e, props) => {
 export function MainApp(props) {
   useEffect(() => {
     addToHistory(props);
-  }, [props]);
+  }, [props.data]);
 
   function refreshPage() {
     window.location.reload(false);
@@ -168,6 +191,7 @@ export function History(props) {
             {Object.keys(histories).map((key, index) => (
               <li key={index}>
                 <p>Question: {histories[key].question}</p>
+                <p>Model: {histories[key].model}</p>
                 <p>Answer: {histories[key].answer}</p>
               </li>
             ))}
@@ -188,9 +212,19 @@ export function About() {
       <h2>About</h2>
       <p>
         This is a simple application that takes user input and query through
-        OpenAI's Codex -- a large language model. <br />
+        OpenAI's GPT3.5 -- a Large Language Model. <br />
         To learn more about OpenAI and Codex, please visit their{" "}
-        <a href="https://openai.com/">website</a>.
+        <a href="https://openai.com/" target="_blank" rel="noopener noreferrer">
+          website
+        </a>
+        .
+        <br />
+        <br />
+        To learn more about Harry and his experiences, please visit his{" "}
+        <a href="https://harryye.com" target="_blank" rel="noopener noreferrer">
+          personal website
+        </a>
+        .
         <br />
         <br />
         &copy; Copyright {new Date().getFullYear()}, Harry Ye

@@ -10,7 +10,7 @@ export function Chat(props) {
     return (
       <ErrorState
         error={props.error}
-        refreshPage={() => window.location.reload(false)}
+        refreshPage={() => window.location.reload()}
       />
     );
   }
@@ -25,12 +25,12 @@ export function Chat(props) {
       <form onSubmit={(e) => formSubmit(e, props)} className="query-form">
         <input
           type="text"
+          className="query-input"
           placeholder="ask whatever you want to the all mighty GPT..."
           defaultValue={props.query}
           onChange={(e) => {
             props.setQuery(e.target.value);
           }}
-          className="query-input"
         />
         <button className="query-button">Ask</button>
       </form>

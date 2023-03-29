@@ -42,19 +42,19 @@ export function Completion(props) {
       <form onSubmit={(e) => formSubmit(e, props)} className="query-form">
         <input
           type="text"
+          className="query-input"
           placeholder="ask whatever you want to the all mighty GPT..."
           defaultValue={props.query}
           onChange={(e) => {
             props.setQuery(e.target.value);
           }}
-          className="query-input"
         />
         <select
           defaultValue={props.currLang}
+          className="query-select"
           onChange={(e) => {
             props.setCurrLang(e.target.value);
           }}
-          className="query-select"
         >
           <option value="Choose a language" disabled>
             Choose a language

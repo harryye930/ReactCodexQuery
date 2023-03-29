@@ -1,6 +1,6 @@
 export default function ErrorState({ error, refreshPage }) {
   return (
-    <div className="query-container">
+    <div className="error-container">
       <h2>Error!</h2>
       <p>There was an error processing your request:</p>
       <pre className="query-pre">{JSON.stringify(error.message)}</pre>

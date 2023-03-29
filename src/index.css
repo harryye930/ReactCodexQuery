@@ -1,3 +1,12 @@
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #3F3F3F;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,11 +15,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 input[type="text"] {
@@ -30,11 +34,146 @@ button {
   margin: 2px;
 }
 
-.pageNotFoundImg{
-  max-width: 60%;
-  height: auto;
+.query-container {
+  max-width: 1200px;
+  width: 90%; /* Set the width to 90% for responsiveness */
+  margin: 0 auto; /* Center the container on the page */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/*query page*/
+.query-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.query-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.query-select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.query-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.query-button:hover {
+  background-color: #0056b3;
+}
+
+.query-pre {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-wrap: break-word; /* Add this property to break long words */
+  white-space: pre-wrap; /* Add this property to wrap white spaces */
+}
+/*end of query page*/
+/*page not found*/
+.pageNotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.pageNotFound h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.pageNotFoundImg {
+  max-width: 60%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.pageNotFound p {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.goHomeBtn {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.goHomeBtn:hover {
+  background-color: #0056b3;
+}
+
+/*end of page not found*/
+
+/*loading page*/
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/*end of loading page*/
+
+/*error page */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+/*end of error page*/
 .nav {
   display: flex;
   text-decoration: none;

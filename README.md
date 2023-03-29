@@ -1,3 +1,18 @@
+# Code Inquiry Assistant
+
+## Query
+
+## History
+
+## About
+
+## Errors
+
+### 404 Page Not Found
+### Server Error
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

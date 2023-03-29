@@ -1,6 +1,6 @@
 {
-  "name": "react-codex-query",
-  "version": "1.3.0",
+  "name": "code-inquery-assistant",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
